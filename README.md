@@ -49,3 +49,24 @@ terraform plan
 - SPF（`v=spf1` で始まる値）は1つまで。送信元を増やすときは、同じ行の中に追記する
 - Google Workspace の所有権確認の TXT は、Search Console の確認にも使われているので消さない
 - DMARC は `p=none` で運用中。レポートで問題がないことを確認してから、`p=quarantine` に上げる
+
+## 残タスク
+
+### DNS（このリポジトリ）
+
+- [ ] TTL を 300 から 3600 に上げる（1週間ほど問題がなければ。目安：2026-10-04 以降）
+- [ ] DMARC のレポートを確認し、問題がなければ `p=none` から `p=quarantine` に上げる
+
+### CI/CD とセキュリティ
+
+- [ ] GitHub Actions で `terraform fmt` と `terraform validate` を自動実行する
+  - `infra/local-only/` 以下は対象外にする
+  - AWS への認証は、アクセスキーではなく OIDC を使う
+- [ ] GitHub のシークレットスキャンとプッシュ保護を有効にする
+- [ ] コミット前に gitleaks でチェックする仕組み（pre-commit）を入れる
+
+### 今後の拡張
+
+- [ ] `admon-networks.com`（ルート）のトップページを S3 + CloudFront で作り、`infra/top/` で管理する
+- [ ] ブログのサーバーを作り直し（Lightsail の Debian + Ansible）、`infra/blog/` で管理する
+- [ ] ブログの画像を S3 に移す
