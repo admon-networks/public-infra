@@ -16,13 +16,3 @@ provider "aws" {
     tags = local.common_tags
   }
 }
-
-# ドメイン登録（Route 53 Domains）用。この API は us-east-1 にしかない
-provider "aws" {
-  alias  = "us_east_1"
-  region = "us-east-1"
-
-  default_tags {
-    tags = local.common_tags
-  }
-}
