@@ -20,7 +20,7 @@ resource "aws_route53_record" "txt_root" {
   ttl     = 300 # 移行中は変更をすぐ反映させるため短め。落ち着いたら 3600 にする
 
   records = [
-    "google-site-verification=KAHuHMvtSHs03F2_xIgCWCEq4yor_gsILF-FatSfTJw", # Google Workspace の所有権確認
+    "google-site-verification=KAHuHMvtSHs03F2_xIgCWCEq4yor_gsILF-FatSfTJw", # Google Workspace の所有権確認（Search Console の確認も兼ねているので消さない）
     "v=spf1 include:_spf.google.com ~all",                                  # SPF：Google Workspace からの送信を許可
   ]
 }
