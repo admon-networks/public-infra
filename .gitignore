@@ -1,0 +1,17 @@
+# Terraform の作業ディレクトリ（プロバイダのバイナリなど）
+.terraform/
+
+# state は S3 に置くので、リポジトリには入れない
+*.tfstate
+*.tfstate.*
+
+# 変数ファイル（環境固有の値や秘密情報が入りうる）
+*.tfvars
+*.tfvars.json
+
+# backend の設定値（バケット名など）
+backend.hcl
+
+# クラッシュログ
+crash.log
+crash.*.log
