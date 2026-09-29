@@ -62,11 +62,12 @@ terraform plan
 - [ ] GitHub Actions で `terraform fmt` と `terraform validate` を自動実行する
   - `infra/local-only/` 以下は対象外にする
   - AWS への認証は、アクセスキーではなく OIDC を使う
-- [ ] GitHub のシークレットスキャンとプッシュ保護を有効にする
+- [ ] `dependabot.yml` で AWS プロバイダの更新を自動化する
 - [ ] コミット前に gitleaks でチェックする仕組み（pre-commit）を入れる
+- [x] GitHub のシークレットスキャンとプッシュ保護を有効にする
 
-### 今後の拡張
+### 今後の拡張（この順番で進める）
 
-- [ ] `admon-networks.com`（ルート）のトップページを S3 + CloudFront で作り、`infra/top/` で管理する
-- [ ] ブログのサーバーを作り直し（Lightsail の Debian + Ansible）、`infra/blog/` で管理する
-- [ ] ブログの画像を S3 に移す
+1. [ ] ブログの画像を S3 + CloudFront で配信し、`infra/media/` で管理する（`img.` または `media.`）
+2. [ ] ブログのサーバーを作り直し（Lightsail の Debian + Ansible）、`infra/blog/` で管理する
+3. [ ] `admon-networks.com`（ルート）のトップページを S3 + CloudFront で作り、`infra/top/` で管理する
