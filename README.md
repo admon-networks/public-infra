@@ -9,6 +9,8 @@
 | `infra/dns/` | ホストゾーンと DNS レコード（ブログ、Google Workspace のメールなど） | 対象 |
 | `infra/local-only/domain-registration/` | ドメイン登録の設定（自動更新、移管ロック、WHOIS 非公開） | **対象外** |
 | `infra/github-oidc/` | GitHub Actions が AWS に認証するための OIDC プロバイダー（アカウント共通） | 対象 |
+| `infra/modules/github-deploy-role/` | GitHub Actions から S3 に反映するための IAM ロール（モジュール） | 対象 |
+| `infra/local-only/static-site-01/` | 外部の静的サイトのデプロイ用ロール | **対象外** |
 
 - state はディレクトリ（スタック）ごとに、S3 に分けて保存しています。
 - `infra/dns/` の中は、レコードの種類ごとにファイルを分けています（`record-a.tf`、`record-mx.tf`、`record-txt.tf`）。
@@ -50,8 +52,9 @@ git config core.hooksPath .githooks
 - `backend.hcl`、`*.tfvars`、state ファイルはコミットしない（`.gitignore` で除外済み）
 - `.terraform.lock.hcl` はコミットする（プロバイダのバージョンを揃えるため）
 - `infra/local-only/` 以下は、手元の端末でのみ実行する
-  - 登録者の連絡先を state に持つため、CI で実行するとログに個人情報が出る
-  - plan や state の出力をどこかに貼るときは、連絡先の部分を必ず削除する
+  - 個人を特定できる情報（ドメイン登録者の連絡先、サイトの所有者など）を state や変数に持つため、CI で実行するとログに出る
+  - 実際の値は各ディレクトリの `terraform.tfvars` に書く（コミットしない）
+  - plan や state の出力を公開の場所に貼るときは、個人を特定できる部分を必ず削除する
 - ホストゾーンには `prevent_destroy` を設定し、誤って削除できないようにしている
 - apply の前には必ず plan を確認し、`destroy` や意図しない変更がないことを確かめる
 

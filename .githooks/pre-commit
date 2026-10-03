@@ -15,7 +15,7 @@ if ! command -v gitleaks > /dev/null 2>&1; then
 fi
 
 # 1. 鍵・トークンなどの秘密情報
-gitleaks git --pre-commit --staged --redact --no-banner
+gitleaks git --pre-commit --staged --redact --no-banner --verbose
 
 # 2. 公開できない文字列（追加した行とファイル名）
 staged_diff="$(git diff --cached --no-color -U0)"
