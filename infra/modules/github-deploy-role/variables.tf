@@ -10,7 +10,7 @@ variable "oidc_provider_arn" {
 }
 
 variable "github_repository" {
-  description = "ロールを引き受けられるリポジトリ（オーナー/リポジトリ名）"
+  description = "ロールを引き受けられるリポジトリ。OIDC トークンの sub に入る形式で指定する（例：owner@オーナーID/repo@リポジトリID）"
   type        = string
 }
 

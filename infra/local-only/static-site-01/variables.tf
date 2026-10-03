@@ -11,6 +11,6 @@ variable "cloudfront_distribution_id" {
 }
 
 variable "github_repository" {
-  description = "サイトのコードを管理するリポジトリ（オーナー/リポジトリ名）"
+  description = "ロールを引き受けられるリポジトリ。OIDC トークンの sub に入る形式で指定する（例：owner@オーナーID/repo@リポジトリID）"
   type        = string
 }
