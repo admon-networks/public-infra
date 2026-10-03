@@ -8,6 +8,7 @@
 | --- | --- | --- |
 | `infra/dns/` | ホストゾーンと DNS レコード（ブログ、Google Workspace のメールなど） | 対象 |
 | `infra/local-only/domain-registration/` | ドメイン登録の設定（自動更新、移管ロック、WHOIS 非公開） | **対象外** |
+| `infra/github-oidc/` | GitHub Actions が AWS に認証するための OIDC プロバイダー（アカウント共通） | 対象 |
 
 - state はディレクトリ（スタック）ごとに、S3 に分けて保存しています。
 - `infra/dns/` の中は、レコードの種類ごとにファイルを分けています（`record-a.tf`、`record-mx.tf`、`record-txt.tf`）。
