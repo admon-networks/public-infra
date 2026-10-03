@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# コミットメッセージに、公開できない文字列が含まれていないかを確認する
+set -euo pipefail
+
+PATTERNS_FILE="${HOME}/.config/git-guard/blocked-patterns.txt"
+MSG_FILE="$1"
+
+if [[ ! -s "${PATTERNS_FILE}" ]]; then
+  echo "[git-guard] ${PATTERNS_FILE} がないか空です。コミットを中止します。" >&2
+  exit 1
+fi
+
+# 「#」で始まる行は Git が自動で取り除くので対象外にする
+matches="$(grep -v '^#' "${MSG_FILE}" | grep -inF -f "${PATTERNS_FILE}" || true)"
+if [[ -n "${matches}" ]]; then
+  echo "[git-guard] コミットメッセージに、公開できない文字列が含まれています。コミットを中止します。" >&2
+  printf '%s\n' "${matches}" >&2
+  exit 1
+fi

@@ -33,6 +33,17 @@ cd infra/dns
 terraform plan
 ```
 
+### コミット前チェック（clone したら必ず設定する）
+
+```bash
+git config core.hooksPath .githooks
+```
+
+- `.githooks/pre-commit`：gitleaks で秘密情報を、`~/.config/git-guard/blocked-patterns.txt` で公開できない文字列を検査する
+- `.githooks/commit-msg`：コミットメッセージを同じパターンで検査する
+- パターンファイルはリポジトリに置かない（中身そのものが公開できない情報のため）。ファイルがないとコミットできない
+- GitHub の画面で直接編集した場合はチェックが働かないので、公開できない情報に関わる編集は手元から行う
+
 ## 運用ルール
 
 - 秘密情報（鍵、パスワード、連絡先など）はコミットしない
@@ -64,7 +75,7 @@ terraform plan
   - `infra/local-only/` 以下は対象外にする
   - AWS への認証は、アクセスキーではなく OIDC を使う
 - [ ] `dependabot.yml` で AWS プロバイダの更新を自動化する
-- [ ] コミット前に gitleaks でチェックする仕組み（pre-commit）を入れる
+- [x] コミット前に gitleaks でチェックする仕組み（pre-commit）を入れる
 - [x] GitHub のシークレットスキャンとプッシュ保護を有効にする
 
 ### 今後の拡張（この順番で進める）

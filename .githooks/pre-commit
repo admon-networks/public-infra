@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# コミット前に、ステージした変更に秘密情報や公開できない文字列が含まれていないかを確認する
+set -euo pipefail
+
+PATTERNS_FILE="${HOME}/.config/git-guard/blocked-patterns.txt"
+
+# チェックできない状態なら、通さずに止める
+if [[ ! -s "${PATTERNS_FILE}" ]]; then
+  echo "[git-guard] ${PATTERNS_FILE} がないか空です。コミットを中止します。" >&2
+  exit 1
+fi
+if ! command -v gitleaks > /dev/null 2>&1; then
+  echo "[git-guard] gitleaks が見つかりません。コミットを中止します。" >&2
+  exit 1
+fi
+
+# 1. 鍵・トークンなどの秘密情報
+gitleaks git --pre-commit --staged --redact --no-banner
+
+# 2. 公開できない文字列（追加した行とファイル名）
+staged_diff="$(git diff --cached --no-color -U0)"
+matches="$(printf '%s\n' "${staged_diff}" | grep -E '^(\+|diff --git )' | grep -iF -f "${PATTERNS_FILE}" || true)"
+if [[ -n "${matches}" ]]; then
+  echo "[git-guard] ステージした変更に、公開できない文字列が含まれています。コミットを中止します。" >&2
+  printf '%s\n' "${matches}" >&2
+  exit 1
+fi
