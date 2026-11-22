@@ -2,14 +2,13 @@ locals {
   blog_server_ip = "35.76.223.118" # Lightsail（WordPress-1）の固定IP
 }
 
-# blog.admon-networks.com：ブログ本体
-resource "aws_route53_record" "a_blog" {
-  zone_id = aws_route53_zone.main.zone_id
-  name    = "blog.${local.domain_name}"
-  type    = "A"
-  ttl     = 300
+# blog は infra/blog スタックへ移管（レコード自体は削除しない）
+removed {
+  from = aws_route53_record.a_blog
 
-  records = [local.blog_server_ip]
+  lifecycle {
+    destroy = false
+  }
 }
 
 # admon-networks.com（ルートドメイン）
