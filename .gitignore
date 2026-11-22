@@ -15,3 +15,7 @@ backend.hcl
 # クラッシュログ
 crash.log
 crash.*.log
+
+# terraform plan の出力ファイル（リソースの詳細が入るのでコミットしない）
+tfplan
+*.tfplan
