@@ -25,3 +25,11 @@ if [[ -n "${matches}" ]]; then
   printf '%s\n' "${matches}" >&2
   exit 1
 fi
+
+# 3. コミットしてはいけないファイル（Terraform の plan / state）
+forbidden="$(git diff --cached --name-only --diff-filter=ACMR | grep -E '(^|/)(tfplan|[^/]*\.tfplan|[^/]*\.tfstate(\.[^/]+)?)$' || true)"
+if [[ -n "${forbidden}" ]]; then
+  echo "[git-guard] Terraform の plan / state はコミットできません。コミットを中止します。" >&2
+  printf '%s\n' "${forbidden}" >&2
+  exit 1
+fi
