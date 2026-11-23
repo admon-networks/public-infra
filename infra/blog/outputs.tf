@@ -17,3 +17,8 @@ output "distribution_hosted_zone_id" {
   description = "Route 53 のエイリアスレコードに使う CloudFront のホストゾーン ID"
   value       = aws_cloudfront_distribution.site.hosted_zone_id
 }
+
+output "deploy_role_arn" {
+  description = "GitHub Actions のデプロイ用ロールの ARN（リポジトリの変数 AWS_DEPLOY_ROLE_ARN に設定する）"
+  value       = module.deploy_role.role_arn
+}
